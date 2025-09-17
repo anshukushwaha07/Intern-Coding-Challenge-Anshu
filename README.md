@@ -54,15 +54,17 @@ project-root/
    ```
 
 2. Create a .env file:
-    PORT=5006
-    DB_HOST=localhost
-    DB_USER=your_mysql_user
-    DB_PASS=your_mysql_password
-    DB_NAME=Rating_db
-    JWT_SECRET=your_secret_here
+   - PORT=5006
+   - DB_HOST=localhost
+   - DB_USER=your_mysql_user
+   - DB_PASS=your_mysql_password
+   - DB_NAME=Rating_db
+   - JWT_SECRET=your_secret_here
 
 3. Make sure you have the MySQL tables created:  
-   CREATE TABLE users (
+   -- Users table
+```  
+CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(60) NOT NULL,
   email VARCHAR(100) NOT NULL UNIQUE,
@@ -71,7 +73,9 @@ project-root/
   role ENUM('admin','user','owner') NOT NULL DEFAULT 'user',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
+``` 
+``` 
+-- Stores table
 CREATE TABLE stores (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
@@ -79,16 +83,23 @@ CREATE TABLE stores (
   address VARCHAR(400),
   owner_id INT NULL,
   FOREIGN KEY (owner_id) REFERENCES users(id)
+    ON DELETE SET NULL
 );
-
+``` 
+-- Ratings table
+``` 
 CREATE TABLE ratings (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT,
-  store_id INT,
-  rating INT,
-  FOREIGN KEY (user_id) REFERENCES users(id),
+  user_id INT NOT NULL,
+  store_id INT NOT NULL,
+  rating INT NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+    ON DELETE CASCADE,
   FOREIGN KEY (store_id) REFERENCES stores(id)
+    ON DELETE CASCADE,
+  UNIQUE KEY unique_user_store (user_id, store_id)
 );
+``` 
 
 4. Start the backend server:
 

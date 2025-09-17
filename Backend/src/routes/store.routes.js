@@ -1,5 +1,5 @@
 import express from "express";
-import { getStores, submitRating } from "../controllers/store.controller.js";
+import { getStores, submitRating,getStoreWithRating,rateStore } from "../controllers/store.controller.js";
 import { authMiddleware } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
@@ -9,5 +9,8 @@ router.get("/", getStores);
 
 // protected: submit rating
 router.post("/:id/rating", authMiddleware, submitRating);
+
+router.post("/stores/:id/rate", authMiddleware, rateStore);
+router.get("/stores/:id", getStoreWithRating);
 
 export default router;

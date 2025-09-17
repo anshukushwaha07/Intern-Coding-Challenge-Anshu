@@ -1,6 +1,5 @@
 import { db } from "../config/db.js";
 
-// Add a new user (admin can create normal or owner users)
 export const addUser = async (req, res) => {
   const { name, email, address, password, role } = req.body;
   if (!name || !email || !password || !role)
@@ -20,23 +19,7 @@ export const addUser = async (req, res) => {
   }
 };
 
-// Add a new store
-export const addStore = async (req, res) => {
-  const { name, email, address } = req.body;
-  if (!name || !email)
-    return res.status(400).json({ message: "Missing fields" });
 
-  try {
-    const [result] = await db.query(
-      "INSERT INTO stores (name,email,address) VALUES (?,?,?)",
-      [name, email, address]
-    );
-    res.status(201).json({ message: "Store added", id: result.insertId });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Error adding store" });
-  }
-};
 
 // Dashboard stats
 export const getDashboardStats = async (req, res) => {
@@ -93,19 +76,33 @@ export const deleteUser = async (req, res) => {
       res.status(500).json({ message: "Error deleting store" });
     }
   };
-  
-  // update a store (name/address/owner_id)
-  export const updateStore = async (req, res) => {
-    const { name, address, owner_id } = req.body;
-    try {
-      await db.query(
-        "UPDATE stores SET name=?, address=?, owner_id=? WHERE id=?",
-        [name, address, owner_id, req.params.id]
-      );
-      res.json({ message: "Store updated" });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: "Error updating store" });
-    }
-  };
-  
+
+export const addStore = async (req, res) => {
+  const { name, email, address, owner_id } = req.body;
+  try {
+    const [result] = await db.query(
+      "INSERT INTO stores (name,email,address,owner_id) VALUES (?,?,?,?)",
+      [name, email, address, owner_id || null]
+    );
+    res.status(201).json({ message: "Store added", id: result.insertId });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error adding store" });
+  }
+};
+
+export const updateStore = async (req, res) => {
+  const { id } = req.params;
+  const { name, email, address, owner_id } = req.body;
+  try {
+    await db.query(
+      "UPDATE stores SET name=?, email=?, address=?, owner_id=? WHERE id=?",
+      [name, email, address, owner_id || null, id]
+    );
+    res.json({ message: "Store updated" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error updating store" });
+  }
+};
+

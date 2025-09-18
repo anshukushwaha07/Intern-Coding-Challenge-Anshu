@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "../api/axios.js";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext.jsx";
+import { useAuth } from "../hooks/useAuth.js";
 import { FiUser, FiMail, FiLock, FiHome, FiLogIn } from "react-icons/fi"; // Feather Icons
 
 export default function Signup() {

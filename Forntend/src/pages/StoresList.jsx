@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "../api/axios.js";
-import { useAuth } from "../context/AuthContext.jsx";
+import { useAuth } from "../hooks/useAuth.js";
 import { FaStar, FaSpinner } from "react-icons/fa";
 
 // A skeleton loader component for a better initial loading experience

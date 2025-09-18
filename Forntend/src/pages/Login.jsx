@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "../api/axios.js";
-import { useAuth } from "../context/AuthContext.jsx";
+import { useAuth } from "../hooks/useAuth.js";
 import { Link, useNavigate } from "react-router-dom";
 import { FiMail, FiLock, FiLogIn } from "react-icons/fi"; 
 

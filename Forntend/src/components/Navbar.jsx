@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext.jsx";
+import { useAuth } from "../hooks/useAuth.js";
 import { FaStore, FaBars, FaTimes } from "react-icons/fa";
 import AdminDropdown from './AdminDropdown.jsx';
 

@@ -71,7 +71,7 @@ export default function OwnerDashboard() {
 
   useEffect(() => {
     fetchRatings(page);
-  }, []); // Only fetch on initial mount, pagination clicks will call fetchRatings directly
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps -- Intentionally only fetch on mount, pagination handled manually
 
   const totalPages = Math.ceil(total / limit);
 

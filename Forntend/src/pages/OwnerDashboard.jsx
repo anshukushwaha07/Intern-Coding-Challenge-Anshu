@@ -70,7 +70,7 @@ export default function OwnerDashboard() {
   };
 
   useEffect(() => {
-    fetchRatings(page);
+    fetchRatings(1);
   }, []); // Only fetch on initial mount, pagination clicks will call fetchRatings directly
 
   const totalPages = Math.ceil(total / limit);

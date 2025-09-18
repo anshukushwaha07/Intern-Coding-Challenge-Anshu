@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "../api/axios.js";
 import { useAuth } from "../context/AuthContext.jsx";
 import { FaStar, FaSpinner } from "react-icons/fa";
@@ -15,11 +15,7 @@ export default function StoreDetail() {
   const [message, setMessage] = useState({ type: "", content: "" });
 
   // fetch store info + ratings
-  useEffect(() => {
-    fetchStore();
-  }, [id]);
-
-  const fetchStore = async () => {
+  const fetchStore = useCallback(async () => {
     try {
       // you can make backend return store + ratings in one endpoint
       const [storeRes, ratingsRes] = await Promise.all([
@@ -34,7 +30,11 @@ export default function StoreDetail() {
         content: err.response?.data?.message || "Error loading store"
       });
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    fetchStore();
+  }, [fetchStore]);
 
   const handleRate = async () => {
     if (!myRating || myRating < 1 || myRating > 5) {

@@ -1,10 +1,12 @@
 import axios from "axios";
 
+// Use environment variable if available, otherwise fallback
 const instance = axios.create({
-  baseURL: "http://localhost:5006/api",
+  baseURL:
+    import.meta.env.VITE_API_URL || "http://localhost:5006/api",
 });
 
-// attach token automatically
+// Attach JWT token automatically if present
 instance.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {
